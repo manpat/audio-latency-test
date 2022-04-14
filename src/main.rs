@@ -128,9 +128,11 @@ impl sdl2::audio::AudioCallback for AudioSubmissionWorker {
 			*time = 0.0;
 		}
 
+		let decay = 32.0 / 1000.0;
+
 		for sample in output.iter_mut() {
 			let osc = (440.0 * TAU * *phase).sin();
-			let env = (1.0 - *time * 100.0).max(0.0).powi(2);
+			let env = (1.0 - *time / decay).max(0.0).powi(2);
 
 			*phase += dt;
 			*time += dt;
